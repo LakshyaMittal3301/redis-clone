@@ -15,6 +15,18 @@ function parser(data){
     };
 }
 
+function executeCommand(data, socket){
+    let {command, args} = parser(data);
+    switch(command){
+        case 'ping': 
+            ping(socket);
+            break;
+        case 'echo':
+            echo(args[0], socket);
+            break;
+    }
+}
+
 function ping(socket){
     socket.write('+PONG\r\n');
 }
@@ -29,15 +41,13 @@ const server = net.createServer((socket) => {
 
     socket.on('data', (data) => {
         data = data.toString();
-        let {command, args} = parser(data);
-        switch(command){
-            case 'ping': 
-                ping(socket);
-                break;
-            case 'echo':
-                echo(args[0], socket);
-                break;
+        if(data == 'ping'){
+            ping(socket);
         }
+        else{
+            executeCommand(data, socket);
+        }
+
   });
 
 });
