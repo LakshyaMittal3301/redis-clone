@@ -1,22 +1,18 @@
-const { createHash } = require("crypto");
 const net = require("net");
-const { parse } = require("path");
+const { parseResponse } = require('./parser');
 
-const PORT = 6379;
-const LOCALHOST = "127.0.0.1";
-
-const dataType = {
-    simpleString : "simpleString",
-    nullBulkString: "nullBulkString",
-    bulkString: "bulkString",
-    array: "array"
-}
-
-const config = {};
+const { PORT, LOCALHOST, config } = require('./config');
+const { 
+    ping, 
+    echo, 
+    set,
+    get,
+    getConfig 
+}  = require('./commands');
 
 const dataStore = new Map();
 
-function parser(data){
+function inputParser(data){
     let arrayRequest = data.split('\r\n');
     let args = [];
     for(let i = 4; i < arrayRequest.length; i+=2)
@@ -28,53 +24,8 @@ function parser(data){
     };
 }
 
-function parseSimpleString(string){
-    return `+${string}\r\n`;
-}
-
-function parseNullBulkString(string){
-    return '$-1\r\n';
-}
-
-function parseBulkString(string){
-    return `$${string.length}\r\n${string}\r\n`;
-}
-
-function parseArray(array){
-    ret = `*${array.length}\r\n`;
-    for(const element of array){
-        ret += parseResponse(element);
-    }
-    return ret;
-}
-
-function createResposneObject(value, type){
-    return {value, type};
-}
-
-function parseResponse(res){
-    let {value, type} = res;
-    let ret;
-    switch(type){
-        case dataType.simpleString:
-            ret = parseSimpleString(value);
-            break;
-        case dataType.nullBulkString:
-            ret = parseNullBulkString(value);
-            break;
-        case dataType.bulkString:
-            ret = parseBulkString(value);
-            break;
-        case dataType.array:
-            ret = parseArray(value);
-        break;
-
-    }
-    return ret;
-}
-
 function executeCommand(data, socket){
-    let {command, args} = parser(data);
+    let {command, args} = inputParser(data);
     let res;
     switch(command){
         case 'ping': 
@@ -85,53 +36,20 @@ function executeCommand(data, socket){
             break;
         case 'set':
             if(args.length == 2){
-                res = set(args[0], args[1]);
+                res = set(dataStore, args[0], args[1]);
             } else {
-                res = set(args[0], args[1], args[2], args[3]);
+                res = set(dataStore, args[0], args[1], args[2], args[3]);
             }
             break;
         case 'get':
-            res = get(args[0], socket);
+            res = get(dataStore, args[0], socket);
             break;
         case 'config':
-            res = getConfig(args[1]);
+            res = getConfig(config, args[1]);
             break;
     }
 
     socket.write(parseResponse(res));
-}
-
-function ping(){
-    return createResposneObject('PONG', dataType.simpleString);
-}
-
-function echo(message){
-    return createResposneObject(message, dataType.simpleString);
-}
-
-function set(key, value, arg, argVal){
-    
-    dataStore.set(key, value)
-    
-    if(arg == "px"){
-        setTimeout(() => {
-            dataStore.delete(key);
-        }, argVal);
-    }
-    return createResposneObject("OK", dataType.simpleString);
-}
-
-function get(key){
-    if(dataStore.has(key)){
-        return createResposneObject(dataStore.get(key), dataType.simpleString);
-    }else{
-        return createResposneObject("", dataType.nullBulkString);
-    }
-}
-
-function getConfig(arg){
-    let arr = [createResposneObject(arg, dataType.bulkString), createResposneObject(config[arg], dataType.bulkString)];
-    return createResposneObject(arr, dataType.array);
 }
 
 console.log("Logs from your program will appear here!");
@@ -149,9 +67,7 @@ const server = net.createServer((socket) => {
     socket.on('data', (data) => {
         data = data.toString();
         executeCommand(data, socket);
-
   });
-
 });
 
 server.listen(PORT, LOCALHOST, () => {
