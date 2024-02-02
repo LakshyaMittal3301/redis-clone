@@ -41,7 +41,7 @@ function parseBulkString(string){
 }
 
 function parseArray(array){
-    ret = `${array.length}\r\n`;
+    ret = `*${array.length}\r\n`;
     for(const element of array){
         ret += parseResponse(element);
     }
