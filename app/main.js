@@ -3,6 +3,12 @@ const { parse } = require("path");
 
 const PORT = 6379;
 const LOCALHOST = "127.0.0.1";
+
+const dataType = {
+    simpleString : "simpleString",
+    nullBulkString: "nullBulkString"
+}
+
 const dataStore = new Map();
 
 function parser(data){
@@ -21,40 +27,76 @@ function parseSimpleString(string){
     return `+${string}\r\n`;
 }
 
+function parseNullBulkString(string){
+    return '$-1\r\n';
+}
+
+function parseResponse(res){
+    let {value, type} = res;
+    let ret;
+    switch(type){
+        case dataType.simpleString:
+            ret = parseSimpleString(value);
+            break;
+        case dataType.nullBulkString:
+            ret = parseNullBulkString(value);
+    }
+
+    return ret;
+}
+
 function executeCommand(data, socket){
     let {command, args} = parser(data);
+    let res;
     switch(command){
         case 'ping': 
-            ping(socket);
+            res = ping(socket);
             break;
         case 'echo':
-            echo(args[0], socket);
+            res = echo(args[0], socket);
             break;
         case 'set':
-            set(args[0], args[1], socket);
+            if(args.length == 2){
+                res = set(args[0], args[1]);
+            } else {
+                res = set(args[0], args[1], args[2], args[3]);
+            }
             break;
         case 'get':
-            get(args[0], socket);
+            res = get(args[0], socket);
             break;
     }
+
+    socket.write(parseResponse(res));
 }
 
-function ping(socket){
-    socket.write(parseSimpleString('PONG'));
+function ping(){
+    return {value: 'PONG', type: dataType.simpleString};
 }
 
-function echo(message, socket){
-    socket.write(parseSimpleString(message));
+function echo(message){
+    return {value: message, type: dataType.simpleString};
 }
 
-function set(key, value, socket){
+function set(key, value, arg, argVal){
+    
     dataStore.set(key, value)
-    socket.write(parseSimpleString("OK"));
+    
+    if(arg == "px"){
+        setTimeout(() => {
+            dataStore.delete(key);
+        }, argVal);
+    }
+    return {value: "OK", type: dataType.simpleString};
 }
 
-function get(key, socket){
-    value = dataStore.get(key);
-    socket.write(parseSimpleString(value));
+function get(key){
+    if(dataStore.has(key)){
+        return {value: dataStore.get(key), type: dataType.simpleString};
+    }else{
+        return {value: "", type: dataType.nullBulkString};
+    }
+    
 }
 
 console.log("Logs from your program will appear here!");
