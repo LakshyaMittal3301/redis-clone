@@ -3,8 +3,25 @@ const net = require("net");
 const PORT = 6379;
 const LOCALHOST = "127.0.0.1";
 
-function sendPongResponse(socket){
+function parser(data){
+    let arrayRequest = data.split('\r\n');
+    
+    let args = [];
+    for(let i = 4; i < arrayRequest.listen; i+=2)
+        args.push(arrayRequest[i]);
+
+    return {
+        command: arrayRequest[2],
+        args: args
+    };
+}
+
+function ping(socket){
     socket.write('+PONG\r\n');
+}
+
+function echo(message, socket){
+    socket.write(message);
 }
 
 console.log("Logs from your program will appear here!");
@@ -12,11 +29,19 @@ console.log("Logs from your program will appear here!");
 const server = net.createServer((socket) => {
 
     socket.on('data', (data) => {
-        sendPongResponse(socket);
+        let {command, args} = parser(data.toString());
+        switch(command){
+            case 'ping': 
+                ping(socket);
+                break;
+            case 'echo':
+                echo(args, socket);
+                break;
+        }
   });
 
 });
 
 server.listen(PORT, LOCALHOST, () => {
-    console.log(`Server Listening on ${LOCALHOST}/${PORT}`);
+    console.log(`Server Listening on ${LOCALHOST}:${PORT}`);
 });
