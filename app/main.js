@@ -7,17 +7,14 @@ function sendPongResponse(socket){
     socket.write('+PONG\r\n');
 }
 
-// You can use print statements as follows for debugging, they'll be visible when running tests.
 console.log("Logs from your program will appear here!");
 
-// Uncomment this block to pass the first stage
 const server = net.createServer((socket) => {
-  // Handle connection
-  socket.setEncoding('utf8');
-  socket.on('data', (data) => {
-    console.log(data);
-    sendPongResponse(socket);
+
+    socket.on('data', (data) => {
+        sendPongResponse(socket);
   });
+
 });
 
 server.listen(PORT, LOCALHOST, () => {
