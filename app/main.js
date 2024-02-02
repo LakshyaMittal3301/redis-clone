@@ -28,6 +28,7 @@ function executeCommand(data, socket){
 }
 
 function ping(socket){
+    console.log("Executing ping");
     socket.write('+PONG\r\n');
 }
 
@@ -41,6 +42,7 @@ const server = net.createServer((socket) => {
 
     socket.on('data', (data) => {
         data = data.toString();
+        console.log(data);
         if(data == 'ping'){
             ping(socket);
         }
