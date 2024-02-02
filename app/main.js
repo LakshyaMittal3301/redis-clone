@@ -4,10 +4,9 @@ const PORT = 6379;
 const LOCALHOST = "127.0.0.1";
 
 function parser(data){
-    let arrayRequest = data.split('\r\n');
-    
+    let arrayRequest = data.split('\\r\\n');
     let args = [];
-    for(let i = 4; i < arrayRequest.listen; i+=2)
+    for(let i = 4; i < arrayRequest.length; i+=2)
         args.push(arrayRequest[i]);
 
     return {
@@ -29,7 +28,8 @@ console.log("Logs from your program will appear here!");
 const server = net.createServer((socket) => {
 
     socket.on('data', (data) => {
-        let {command, args} = parser(data.toString());
+        data = data.toString();
+        let {command, args} = parser(data);
         switch(command){
             case 'ping': 
                 ping(socket);
