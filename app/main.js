@@ -4,7 +4,7 @@ const PORT = 6379;
 const LOCALHOST = "127.0.0.1";
 
 function parser(data){
-    let arrayRequest = data.split('\\r\\n');
+    let arrayRequest = data.split('\r\n');
     let args = [];
     for(let i = 4; i < arrayRequest.length; i+=2)
         args.push(arrayRequest[i]);
@@ -28,7 +28,6 @@ function executeCommand(data, socket){
 }
 
 function ping(socket){
-    console.log("Executing ping");
     socket.write('+PONG\r\n');
 }
 
@@ -42,13 +41,7 @@ const server = net.createServer((socket) => {
 
     socket.on('data', (data) => {
         data = data.toString();
-        console.log(data);
-        if(data == 'ping'){
-            ping(socket);
-        }
-        else{
-            executeCommand(data, socket);
-        }
+        executeCommand(data, socket);
 
   });
 
