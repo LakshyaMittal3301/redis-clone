@@ -47,7 +47,7 @@ function echo(message, socket){
     socket.write(parseSimpleString(message));
 }
 
-function set(key, value){
+function set(key, value, socket){
     dataStore.set(key, value)
     socket.write(parseSimpleString("OK"));
 }
