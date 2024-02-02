@@ -37,7 +37,7 @@ function parseNullBulkString(string){
 }
 
 function parseBulkString(string){
-    return `$${string.length}\r\n${str}`;
+    return `$${string.length}\r\n${string}`;
 }
 
 function parseArray(array){
