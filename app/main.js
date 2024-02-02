@@ -15,6 +15,10 @@ function parser(data){
     };
 }
 
+function parseSimpleString(string){
+    return `+${string}\r\n`;
+}
+
 function executeCommand(data, socket){
     let {command, args} = parser(data);
     switch(command){
@@ -32,7 +36,7 @@ function ping(socket){
 }
 
 function echo(message, socket){
-    socket.write(message);
+    socket.write(parseSimpleString(message));
 }
 
 console.log("Logs from your program will appear here!");
