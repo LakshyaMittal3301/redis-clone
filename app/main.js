@@ -35,7 +35,7 @@ const server = net.createServer((socket) => {
                 ping(socket);
                 break;
             case 'echo':
-                echo(args, socket);
+                echo(args[0], socket);
                 break;
         }
   });
