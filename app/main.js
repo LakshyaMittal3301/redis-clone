@@ -1,7 +1,9 @@
 const net = require("net");
+const { parse } = require("path");
 
 const PORT = 6379;
 const LOCALHOST = "127.0.0.1";
+const dataStore = new Map();
 
 function parser(data){
     let arrayRequest = data.split('\r\n');
@@ -28,15 +30,31 @@ function executeCommand(data, socket){
         case 'echo':
             echo(args[0], socket);
             break;
+        case 'set':
+            set(args[0], args[1], socket);
+            break;
+        case 'get':
+            get(args[0], socket);
+            break;
     }
 }
 
 function ping(socket){
-    socket.write('+PONG\r\n');
+    socket.write(parseSimpleString('PONG'));
 }
 
 function echo(message, socket){
     socket.write(parseSimpleString(message));
+}
+
+function set(key, value){
+    dataStore.set(ket, value)
+    socket.write(parseSimpleString("OK"));
+}
+
+function get(key, socket){
+    value = dataStore.get(key);
+    socket.write(parseSimpleString(value));
 }
 
 console.log("Logs from your program will appear here!");
