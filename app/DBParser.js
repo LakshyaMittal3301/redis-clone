@@ -26,6 +26,7 @@ class DBParser{
 
     fillDataStore(){
         const dataStore = new Map();
+        const curDate = new Date();
 
         let redisString = this.getString(DBParser.REDIS_MAGIC_STRING);
         this.counter += DBParser.REDIS_MAGIC_STRING;
@@ -57,8 +58,11 @@ class DBParser{
             }
             else if(this.buffer[this.counter] == DBParser.EXPIRETIMEMS){
                 this.counter++;
-                let timeDelay = Number(this.buffer.readBigUInt64LE(this.counter));
+                let timeDelay = this.buffer.readBigUInt64LE(this.counter);
                 this.counter += 8;
+                
+                let expiryTime = new Date(curDate.getTime() + timeDelay);
+                
                 let valueType = this.buffer[this.counter];
                 this.counter++;
                 
@@ -67,13 +71,15 @@ class DBParser{
 
                 console.log(`Time to expire for Key : ${key}, with value ${value} is ${timeDelay}ms`);
 
-                dataStore.set(key, {value, timeDelay});
+                dataStore.set(key, {value, expiryTime});
             }
             else if(this.buffer[this.counter] == DBParser.EXPIRETIME){
                 this.counter++;
                 let timeDelay = this.buffer.readUInt32LE(this.counter);
                 timeDelay *= 1000;
                 this.counter += 4;
+
+                let expiryTime = new Date(curDate.getTime() + timeDelay);
 
                 let valueType = this.buffer[this.counter];
                 this.counter++;
@@ -83,7 +89,7 @@ class DBParser{
 
                 console.log(`Time to expire for Key : ${key}, with value ${value} is ${timeDelay}s`);
 
-                dataStore.set(key, {value, timeDelay});
+                dataStore.set(key, {value, expiryTime});
             }
             else if(this.buffer[this.counter] == DBParser.EOF){
                 break;
@@ -95,11 +101,11 @@ class DBParser{
                 let key = this.handleStringEncoding();
                 let value = this.handleGetEncodedValue(valueType);
 
-                let timeDelay = null;
+                let expiryTime = null;
 
                 console.log(`Time to expire for Key : ${key}, with value ${value} is -1ms`);
 
-                dataStore.set(key, {value, timeDelay});
+                dataStore.set(key, {value, expiryTime});
             }
         }
         return dataStore;
