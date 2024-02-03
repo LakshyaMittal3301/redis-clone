@@ -52,7 +52,7 @@ function keys(config, arg){
     let dbParser = new DBParser(buffer);
     // dbParser.printBuffer();
     let res = dbParser.read()
-    return createResponseObject(createResponseObject(res, dataType.bulkString), dataType.array);
+    return createResponseObject([createResponseObject(res, dataType.bulkString)], dataType.array);
 }
 
 module.exports = {
