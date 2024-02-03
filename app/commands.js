@@ -28,7 +28,7 @@ function get(dataStore, key){
         console.log('Key,', key);
         console.log('Cur date, ', Date.now());
         console.log('expiry Date of get Key', dataStore.get(key).expiryTime);
-        if(dataStore.get(key).expiryTime !== null && dataStore.get(key).expiryTime < Date.now()){
+        if(dataStore.get(key).expiryTime !== null && dataStore.get(key).expiryTime.getTime() < Date.now()){
             dataStore.delete(key);
             return createResponseObject("", dataType.nullBulkString);
         }

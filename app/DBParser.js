@@ -60,7 +60,7 @@ class DBParser{
                 let timeDelay = Number(this.buffer.readBigUInt64LE(this.counter));
                 this.counter += 8;
                 
-                let expiryTime = new Date(Date.now() + timeDelay);
+                let expiryTime = new Date(timeDelay);
                 
                 let valueType = this.buffer[this.counter];
                 this.counter++;
@@ -78,7 +78,7 @@ class DBParser{
                 timeDelay *= 1000;
                 this.counter += 4;
 
-                let expiryTime = new Date(Date.now() + timeDelay);
+                let expiryTime = new Date(timeDelay);
 
                 let valueType = this.buffer[this.counter];
                 this.counter++;
