@@ -16,10 +16,10 @@ function dbParser(filePath){
     let redisString = "";
     let rdbVersion = "";
     for(let i = 0; i < REDIS_MAGIC_STRING; i++){
-        redisString += data[cursor++].toString();
+        redisString += data[cursor++];
     }
     for(let i = 0; i < RDB_VERSION; i++){
-        rdbVersion += data[cursor++].toString;
+        rdbVersion += data[cursor++];
     }
 
     console.log(`redis String is: ${redisString}`);
