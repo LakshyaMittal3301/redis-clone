@@ -12,8 +12,11 @@ function dbParser(filePath){
         console.log(`Error reading file in binary: ${err}`);
         return null;
     }
-
-    const redisString = binaryData.slice(0, 5).toString();
+    let counter = 0;
+    let redisString = "";
+    for(let i = 0; i < REDIS_MAGIC_STRING; i++){
+        redisString += binaryData[counter++].toString();
+    }
     console.log(redisString);
     
 }
