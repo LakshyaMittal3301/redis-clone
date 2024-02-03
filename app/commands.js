@@ -51,7 +51,7 @@ function keys(config, arg){
     }
     let string = "";
 
-    for(let i=0; i < 5; i++){
+    for(let i=5; i < 9; i++){
         string += String.fromCharCode(buffer[i]);
     }
 
