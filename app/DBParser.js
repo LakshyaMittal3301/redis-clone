@@ -20,10 +20,10 @@ class DBParser{
         let redisString = this.getString(this.REDIS_MAGIC_STRING);
         this.counter += this.REDIS_MAGIC_STRING;
 
-        // let rdbVersion = this.getString(this.RDB_VERSION);
-        // this.counter += this.RDB_VERSION;
+        let rdbVersion = this.getString(this.RDB_VERSION);
+        this.counter += this.RDB_VERSION;
 
-        console.log(`Redis Magic String: ${string}`);
+        console.log(`Redis Magic String: ${redisString}`);
         // console.log(`RDB Version: ${rdbVersion}`);
         
         // if(this.buffer[this.counter] == this.AUX){
