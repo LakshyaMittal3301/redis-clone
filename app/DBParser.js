@@ -11,15 +11,23 @@ class DBParser{
         this.counter = 0;
     }
 
-    
+    printBuffer(){
+        console.log(`Buffer : ${buffer}`);
+        console.log(`Buffer.toString : ${buffer.toString()}`);
+    }
+
     read(){
-        let redisString = this.getString(this.REDIS_MAGIC_STRING);
-        this.counter += this.REDIS_MAGIC_STRING;
+        let string = "";
+        for(let i = 0; i < this.REDIS_MAGIC_STRING; i++){
+            string += String.fromCharCode(this.buffer[this.counter + i]);
+        }
+        // let redisString = this.getString(this.REDIS_MAGIC_STRING);
+        // this.counter += this.REDIS_MAGIC_STRING;
 
         // let rdbVersion = this.getString(this.RDB_VERSION);
         // this.counter += this.RDB_VERSION;
 
-        console.log(`Redis Magic String: ${redisString}`);
+        console.log(`Redis Magic String: ${string}`);
         // console.log(`RDB Version: ${rdbVersion}`);
         
         // if(this.buffer[this.counter] == this.AUX){
