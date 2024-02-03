@@ -83,12 +83,13 @@ class DBParser{
         return {type: msb, value: objLength};
     }
 
-    getString(length){
-        let str = "";
-        for(let i=0; i < length; i++){
-            str += String.fromCharCode(this.buffer[this.counter + i]);
+    getString(len){
+        let string = "";
+
+        for(let i=0; i < len; i++){
+            string += String.fromCharCode(this.buffer[this.counter + i]);
         }
-        return str;
+        return string;
     }
 }
 
