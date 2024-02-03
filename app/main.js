@@ -72,12 +72,14 @@ let dataStore = new Map();
     const filePath = path.join(config['dir'], config['dbfilename']);
         
     let buffer;
+    if(!fs.existsSync(filePath)) return;
     try{
         buffer = fs.readFileSync(filePath);
         console.log(`Successfully read the data`);
     }
     catch(err){
         console.log(`Error reading file in binary: ${err}`);
+        return;
     }
     
     const dbParser = new DBParser(buffer);
