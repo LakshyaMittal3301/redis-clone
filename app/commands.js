@@ -23,7 +23,7 @@ function set(dataStore, key, value, arg, argVal){
 function get(dataStore, key){
     let curDate = new Date();
     if(dataStore.has(key)){
-        if(dataStore.get(key).expiryDate < curDate){
+        if(dataStore.get(key).expiryDate !== null && dataStore.get(key).expiryDate < curDate){
             dataStore.delete(key);
             return createResponseObject("", dataType.nullBulkString);
         }
