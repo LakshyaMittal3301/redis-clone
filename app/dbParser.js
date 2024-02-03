@@ -73,4 +73,4 @@ class DBParser{
     }
 };
 
-module.exports = DBParser;
+module.exports.DBParser = DBParser;

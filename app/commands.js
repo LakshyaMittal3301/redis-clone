@@ -1,7 +1,7 @@
 const { dataType } = require('./datatypes');
 const { createResponseObject } = require('./parser');
 const path = require('path');
-const DBParser = require('./DBParser');
+const {DBParser} = require('./DBParser');
 
 function ping(){
     return createResponseObject('PONG', dataType.simpleString);
