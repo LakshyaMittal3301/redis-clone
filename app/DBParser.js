@@ -42,12 +42,10 @@ class DBParser{
             }
             else if(this.buffer[this.counter] == DBParser.RESIZEDB){
                 this.counter++;
-                let hashTableSize = this.buffer.readUInt32LE(this.counter);
-                this.counter += 4;
-                let expireTableSize = this.buffer.readUInt32LE(this.counter);
-                this.counter += 4;
-                console.log(`Hash Table size : ${hashTableSize}`);
-                console.log(`Expire Table size : ${expireTableSize}`)
+                let hashTableSize = this.handleLengthEncoding();
+                let expireTableSize = this.handleLengthEncoding();
+                console.log(`Hash Table size : ${hashTableSize.value}`);
+                console.log(`Expire Table size : ${expireTableSize.value}`)
             }
             else{
                 let valueType = this.buffer[this.counter];
@@ -73,13 +71,10 @@ class DBParser{
     
     handleStringEncoding(){
         let {type, value} = this.handleLengthEncoding();
-        console.log("type", type);
-        console.log("value", value);
-
         if(type < 3){
             let string = this.getString(value);
             this.counter += value;
-            console.log('case is this');
+            // console.log('case is this');
             return string
         }else{
             // TODO:
@@ -88,21 +83,21 @@ class DBParser{
                 case 0:
                     res = this.buffer[this.counter];
                     this.counter++;
-                    console.log("Case is 0");
+                    // console.log("Case is 0");
                     break;
                 case 1:
                     res = this.buffer.readUInt16LE(this.counter);
                     this.counter += 2;
-                    console.log("Case is 1");
+                    // console.log("Case is 1");
                     break;
                 case 2:
                     res = this.buffer.readUInt32LE(this.counter);
                     this.counter += 4;
-                    console.log("Case is 2");
+                    // console.log("Case is 2");
                     break;
                 case 3:
                     res = "Implement this";
-                    console.log(res);
+                    // console.log(res);
                     break;
             }
             return res.toString();
