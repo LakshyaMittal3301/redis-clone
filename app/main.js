@@ -1,7 +1,7 @@
 const net = require("net");
 const { parseResponse } = require('./parser');
 const DBParser = require('./DBParser');
-const fs = require('./fs');
+const fs = require('fs');
 
 const { PORT, LOCALHOST, config } = require('./config');
 const { 
