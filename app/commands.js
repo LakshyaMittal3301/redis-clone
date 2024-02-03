@@ -26,11 +26,10 @@ function set(dataStore, key, value, arg, argVal){
 
 function get(dataStore, key){
     if(dataStore.has(key)){
-        let curDate = new Date();
         console.log('Key,', key);
         console.log('Cur date, ', curDate);
-        console.log('expiry Date of get Key', dataStore.get(key).expiryDate);
-        if(dataStore.get(key).expiryDate !== null && dataStore.get(key).expiryDate < curDate){
+        console.log('expiry Date of get Key', dataStore.get(key).expiryTime);
+        if(dataStore.get(key).expiryTime !== null && dataStore.get(key).expiryTime < Date.now()){
             dataStore.delete(key);
             return createResponseObject("", dataType.nullBulkString);
         }
