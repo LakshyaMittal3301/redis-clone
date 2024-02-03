@@ -3,6 +3,7 @@ class DBParser{
     static RDB_VERSION =  4;
     static AUX = 0xfa;
     static SELECTDB = 0xfe;
+    static RESIZEDB = 0xfb;
 
     buffer;
     counter;
@@ -38,9 +39,13 @@ class DBParser{
                 let dbNumber = this.buffer[this.counter];
                 this.counter++;
                 console.log(`DB Number : ${dbNumber}`)
-                let valueType = this.buffer[this.counter];
-                console.log(valueType.toString(16));
+            }
+            else if(this.buffer[this.counter] == DBParser.RESIZEDB){
                 this.counter++;
+                let hashTableSize = this.handleStringEncoding();
+                let expireTableSize = this.handleStringEncoding();
+                console.log(`Hash Table size : ${hashTableSize}`);
+                console.log(`Expire Table size : ${expireTableSize}`)
             }
             else{
                 let valueType = this.buffer[this.counter];
