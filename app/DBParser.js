@@ -37,6 +37,7 @@ class DBParser{
         this.counter++;
 
         let stringEncodedKey = this.handleLengthEncoding();
+        console.log(stringEncodedKey);
         return stringEncodedKey;
 
 
