@@ -62,7 +62,24 @@ class DBParser{
             return string
         }else{
             // TODO:
-            return 'implement this';
+            let res;
+            switch(value){
+                case 0:
+                    res = this.buffer[this.counter];
+                    this.counter++;
+                    break;
+                case 1:
+                    res = this.buffer.readInt16LE(this.counter);
+                    this.counter += 2;
+                    break;
+                case 2:
+                    res = this.buffer.readInt32LE(this.counter);
+                    this.counter += 4;
+                    break;
+                case 3:
+                    res = "Implement this";
+            }
+            return res.toString();
         }
     }
 
