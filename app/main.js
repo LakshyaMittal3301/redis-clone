@@ -90,7 +90,7 @@ let dataStore = new Map();
         if(value.timeDelay === null) continue;
         setTimeout(() => {
             dataStore.delete(key);
-        }, timeDelay);
+        }, value.timeDelay);
     }
     
 })(process.argv.slice(2));
