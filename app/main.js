@@ -61,6 +61,8 @@ function executeCommand(data, socket){
 console.log("Logs from your program will appear here!");
 
 
+let dataStore;
+
 (function initialize(argList){
     if(argList.length == 0) return;
     
@@ -80,7 +82,7 @@ console.log("Logs from your program will appear here!");
     
     const dbParser = new DBParser(buffer);
     
-    const dataStore = dbParser.fillDataStore();
+    dataStore = dbParser.fillDataStore();
 })(process.argv.slice(2));
 
 
