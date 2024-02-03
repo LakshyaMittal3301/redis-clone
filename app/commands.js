@@ -13,7 +13,7 @@ function set(dataStore, key, value, arg, argVal){
     let timeDelay = arg == "px" ? argVal : null;
     
     let curDate = new Date();
-    let expiryDate = arg == "px" ? new Date(curDate.getTime() + timeDelay) : null;
+    let expiryDate = (arg == "px") ? new Date(curDate.getTime() + timeDelay) : null;
 
     dataStore.set(key, {value, expiryDate})
     
