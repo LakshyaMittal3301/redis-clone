@@ -58,7 +58,9 @@ class DBParser{
             }
             else if(this.buffer[this.counter] == DBParser.EXPIRETIMEMS){
                 this.counter++;
-                let timeDelay = Number(this.buffer.readBigUInt64LE(this.counter));
+                let timeDelay = this.buffer.readBigUInt64LE(this.counter);
+                console.log(timeDelay);
+                timeDelay = Number(timeDelay);
                 this.counter += 8;
                 
                 let expiryTime = new Date(curDate.getTime() + timeDelay);
