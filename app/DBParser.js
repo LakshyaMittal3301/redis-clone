@@ -65,6 +65,8 @@ class DBParser{
                 let key = this.handleStringEncoding();
                 let value = this.handleGetEncodedValue(valueType);
 
+                console.log(`Time to expire for Key : ${key}, with value ${value} is ${timeDelay}ms`);
+
                 dataStore.set(key, {value, timeDelay});
             }
             else if(this.buffer[this.counter] == DBParser.EXPIRETIME){
@@ -79,6 +81,8 @@ class DBParser{
                 let key = this.handleStringEncoding();
                 let value = this.handleGetEncodedValue(valueType);
 
+                console.log(`Time to expire for Key : ${key}, with value ${value} is ${timeDelay}s`);
+
                 dataStore.set(key, {value, timeDelay});
             }
             else if(this.buffer[this.counter] == DBParser.EOF){
@@ -92,6 +96,9 @@ class DBParser{
                 let value = this.handleGetEncodedValue(valueType);
 
                 let timeDelay = null;
+
+                console.log(`Time to expire for Key : ${key}, with value ${value} is -1ms`);
+
                 dataStore.set(key, {value, timeDelay});
             }
         }
