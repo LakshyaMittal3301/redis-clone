@@ -90,7 +90,9 @@ class DBParser{
         
                 let key = this.handleStringEncoding();
                 let value = this.handleGetEncodedValue(valueType);
-                dataStore.set(key, {value, timeDelay: null});
+
+                let timeDelay = null;
+                dataStore.set(key, {value, timeDelay});
             }
         }
         return dataStore;
