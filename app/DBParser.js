@@ -7,7 +7,7 @@ class DBParser{
     counter;
 
     constructor(buffer){
-        this.buffer = Buffer.from(buffer);
+        this.buffer = Buffer.from(buffer, 'utf8');
         this.counter = 0;
     }
 
@@ -24,7 +24,7 @@ class DBParser{
         this.counter += this.RDB_VERSION;
 
         console.log(`Redis Magic String: ${redisString}`);
-        // console.log(`RDB Version: ${rdbVersion}`);
+        console.log(`RDB Version: ${rdbVersion}`);
         
         // if(this.buffer[this.counter] == this.AUX){
         //     this.counter++;
