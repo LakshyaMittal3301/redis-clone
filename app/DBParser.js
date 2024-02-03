@@ -12,8 +12,8 @@ class DBParser{
     }
 
     printBuffer(){
-        console.log(`Buffer : ${buffer}`);
-        console.log(`Buffer.toString : ${buffer.toString()}`);
+        console.log(`Buffer : ${this.buffer}`);
+        console.log(`Buffer.toString : ${this.buffer.toString()}`);
     }
 
     read(){
