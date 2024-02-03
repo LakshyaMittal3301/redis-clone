@@ -2,6 +2,7 @@ const net = require("net");
 const { parseResponse } = require('./parser');
 const DBParser = require('./DBParser');
 const fs = require('fs');
+const path = require('path');
 
 const { PORT, LOCALHOST, config } = require('./config');
 const { 
