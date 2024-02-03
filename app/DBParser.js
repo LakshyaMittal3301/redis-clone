@@ -82,14 +82,17 @@ class DBParser{
                 case 0:
                     res = this.buffer[this.counter];
                     this.counter++;
+                    console.log("Case is 0");
                     break;
                 case 1:
                     res = this.buffer.readUInt16LE(this.counter);
                     this.counter += 2;
+                    console.log("Case is 1");
                     break;
                 case 2:
                     res = this.buffer.readUInt32LE(this.counter);
                     this.counter += 4;
+                    console.log("Case is 2");
                     break;
                 case 3:
                     res = "Implement this";
