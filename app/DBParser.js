@@ -13,16 +13,16 @@ class DBParser{
 
     
     read(){
-        let redisString = this.buffer.slice(this.counter, this.counter + REDIS_MAGIC_STRING).toString('utf8');
+        let redisString = this.buffer.slice(this.counter, this.counter + this.REDIS_MAGIC_STRING).toString('utf8');
         this.counter += REDIS_MAGIC_STRING;
 
-        let rdbVersion = this.buffer.slice(this.counter, this.counter + RDB_VERSION).toString('utf8');
+        let rdbVersion = this.buffer.slice(this.counter, this.counter + this.RDB_VERSION).toString('utf8');
         this.counter += RDB_VERSION;
 
         console.log(`Redis Magic String: ${redisString}`);
         console.log(`RDB Version: ${rdbVersion}`);
         
-        if(this.buffer[this.counter] == AUX){
+        if(this.buffer[this.counter] == this.AUX){
             this.counter++;
             let {key, value} = this.handleAUX();
             console.log(`This is the AUX Key: ${key}`);
