@@ -1,3 +1,4 @@
+const fs = require('fs');
 const REDIS_MAGIC_STRING =  5;
 const RDB_VERSION =  4;
 
