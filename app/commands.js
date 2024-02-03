@@ -50,8 +50,10 @@ function keys(config, arg){
         return null;
     }
 
+    console.log(buffer.toString())
+
     let dbParser = new DBParser(buffer);
-    dbParser.printBuffer();
+    // dbParser.printBuffer();
     dbParser.read()
     return createResponseObject("", dataType.nullBulkString);
 }
