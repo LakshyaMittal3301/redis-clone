@@ -73,7 +73,11 @@ class DBParser{
     }
 
     getString(length){
-        return String.fromCharCode(...(this.buffer.slice(this.counter, this.counter + length)));
+        let str = "";
+        for(let i=0; i < length; i++){
+            str += String.fromCharCode(this.buffer[this.counter + i]);
+        }
+        return str;
     }
 }
 
