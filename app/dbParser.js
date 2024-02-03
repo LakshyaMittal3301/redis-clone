@@ -13,7 +13,7 @@ function dbParser(filePath){
         return null;
     }
 
-    const redisString = binaryData.slice(0, 10).toString();
+    const redisString = binaryData.slice(0, 5).toString();
     console.log(redisString);
     
 }
