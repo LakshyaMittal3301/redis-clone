@@ -18,15 +18,15 @@ class DBParser{
 
     read(){
         let redisString = this.getString(DBParser.REDIS_MAGIC_STRING);
-        this.counter += this.REDIS_MAGIC_STRING;
+        this.counter += DBParser.REDIS_MAGIC_STRING;
 
         let rdbVersion = this.getString(DBParser.RDB_VERSION);
-        this.counter += this.RDB_VERSION;
+        this.counter += DBParser.RDB_VERSION;
 
         console.log(`Redis Magic String:`, redisString);
         console.log(`RDB Version:`, rdbVersion);
         
-        // if(this.buffer[this.counter] == this.AUX){
+        // if(this.buffer[this.counter] == DBParser.AUX){
         //     this.counter++;
         //     let {key, value} = this.handleAUX();
         //     console.log(`This is the AUX Key: ${key}`);
