@@ -71,6 +71,9 @@ class DBParser{
     
     handleStringEncoding(){
         let {type, value} = this.handleLengthEncoding();
+        console.log("type", type);
+        console.log("value", value);
+
         if(type < 3){
             let string = this.getString(value);
             this.counter += value;
