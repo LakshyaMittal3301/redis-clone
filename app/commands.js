@@ -14,15 +14,19 @@ function set(dataStore, key, value, arg, argVal){
     
     let curDate = new Date();
     let expiryDate = (arg == "px") ? new Date(curDate.getTime() + timeDelay) : null;
-
+    console.log(`Key : ${key}, value : ${value}, arg : ${arg}, argVal : ${argVal}`);
+    console.log("expiry", expiryDate);
     dataStore.set(key, {value, expiryDate})
     
     return createResponseObject("OK", dataType.simpleString);
 }
 
 function get(dataStore, key){
-    let curDate = new Date();
     if(dataStore.has(key)){
+        let curDate = new Date();
+        console.log('Key,', key);
+        console.log('Cur date, ', curDate);
+        console.log('expiry Date of get Key', dataStore.get(key).expiryDate);
         if(dataStore.get(key).expiryDate !== null && dataStore.get(key).expiryDate < curDate){
             dataStore.delete(key);
             return createResponseObject("", dataType.nullBulkString);
