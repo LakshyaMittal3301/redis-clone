@@ -13,10 +13,10 @@ class DBParser{
 
     
     read(){
-        let redisString = String.fromCharCode(this.buffer.slice(this.counter, this.counter + this.REDIS_MAGIC_STRING));
+        let redisString = this.getString(this.REDIS_MAGIC_STRING);
         this.counter += this.REDIS_MAGIC_STRING;
 
-        let rdbVersion = String.fromCharCode(this.buffer.slice(this.counter, this.counter + this.RDB_VERSION));
+        let rdbVersion = this.getString(this.RDB_VERSION);
         this.counter += this.RDB_VERSION;
 
         console.log(`Redis Magic String: ${redisString}`);
@@ -39,7 +39,7 @@ class DBParser{
     handleStringEncoding(){
         let {type, value} = this.handleLengthEncoding();
         if(type < 3){
-            let string = String.fromCharCode(this.buffer.slice(this.counter, this.counter + value));
+            let string = this.getString(value);
             this.counter += value;
             return string
         }else{
@@ -70,6 +70,10 @@ class DBParser{
         }
     
         return {type: msb, value: objLength};
+    }
+
+    getString(length){
+        return String.fromCharCode(...(this.buffer.slice(this.counter, this.counter + length)));
     }
 }
 
