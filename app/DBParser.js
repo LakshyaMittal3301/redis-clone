@@ -74,6 +74,7 @@ class DBParser{
         if(type < 3){
             let string = this.getString(value);
             this.counter += value;
+            console.log('case is this');
             return string
         }else{
             // TODO:
@@ -96,6 +97,8 @@ class DBParser{
                     break;
                 case 3:
                     res = "Implement this";
+                    console.log(res);
+                    break;
             }
             return res.toString();
         }
