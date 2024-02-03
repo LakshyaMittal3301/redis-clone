@@ -34,6 +34,7 @@ class DBParser{
         }
 
         let valueType = this.buffer[this.counter];
+        console.log(valueType);
         this.counter++;
 
         let stringEncodedKey = this.handleStringEncoding();
