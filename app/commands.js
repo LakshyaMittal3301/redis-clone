@@ -10,8 +10,9 @@ function echo(message){
 }
 
 function set(dataStore, key, value, arg, argVal){
+    let timeDelay = arg == "px" ? argVal : null;
     
-    dataStore.set(key, value)
+    dataStore.set(key, {value, timeDelay})
     
     if(arg == "px"){
         setTimeout(() => {
@@ -23,7 +24,7 @@ function set(dataStore, key, value, arg, argVal){
 
 function get(dataStore, key){
     if(dataStore.has(key)){
-        return createResponseObject(dataStore.get(key), dataType.simpleString);
+        return createResponseObject(dataStore.get(key).value, dataType.simpleString);
     }else{
         return createResponseObject("", dataType.nullBulkString);
     }

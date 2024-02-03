@@ -84,6 +84,15 @@ let dataStore = new Map();
     const dbParser = new DBParser(buffer);
     
     dataStore = dbParser.fillDataStore();
+
+    // Initializing expiries
+    for(const [key, value] of dataStore){
+        if(value.timeDelay === null) continue;
+        setTimeout(() => {
+            dataStore.delete(key);
+        }, timeDelay);
+    }
+    
 })(process.argv.slice(2));
 
 

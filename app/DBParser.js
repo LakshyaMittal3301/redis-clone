@@ -1,10 +1,14 @@
 class DBParser{
     static REDIS_MAGIC_STRING = 5;
     static RDB_VERSION =  4;
+    
     static AUX = 0xfa;
     static SELECTDB = 0xfe;
     static RESIZEDB = 0xfb;
     static EOF = 0xff;
+    static EXPIRETIME = 0xfd;
+    static EXPIRETIMEMS = 0xfc;
+
     static STRING_TYPE = 0;
 
     buffer;
@@ -51,29 +55,57 @@ class DBParser{
                 console.log(`Hash Table size : ${hashTableSize.value}`);
                 console.log(`Expire Table size : ${expireTableSize.value}`)
             }
+            else if(this.buffer[this.counter] == DBParser.EXPIRETIMEMS){
+                this.counter++;
+                let timeDelay = this.buffer.readBigUInt64LE(this.counter);
+                this.counter += 8;
+                let valueType = this.buffer[this.counter];
+                this.counter++;
+                
+                let key = this.handleStringEncoding();
+                let value = this.handleGetEncodedValue(valueType);
+
+                this.dataStore.set(key, {value, timeDelay});
+            }
+            else if(this.buffer[this.counter] == DBParser.EXPIRETIME){
+                this.counter++;
+                let timeDelay = this.buffer.readUInt32LE(this.counter);
+                timeDelay *= 1000;
+                this.counter += 4;
+
+                let valueType = this.buffer[this.counter];
+                this.counter++;
+                
+                let key = this.handleStringEncoding();
+                let value = this.handleGetEncodedValue(valueType);
+
+                this.dataStore.set(key, {value, timeDelay});
+            }
             else if(this.buffer[this.counter] == DBParser.EOF){
                 break;
             }
             else{
                 let valueType = this.buffer[this.counter];
-                console.log(valueType.toString(16));
                 this.counter++;
         
                 let key = this.handleStringEncoding();
-                console.log('Key: ', key);
-                let value;
-                switch(valueType){
-                    case DBParser.STRING_TYPE:
-                        value = this.handleStringEncoding();
-                        break;
-                }
-                console.log('Value: ', value);
-                dataStore.set(key, value);
+                let value = this.handleGetEncodedValue(valueType);
+                dataStore.set(key, {value, timeDelay: null});
             }
         }
         return dataStore;
     }
     
+    handleGetEncodedValue(valueType){
+        let value;
+        switch(valueType){
+            case DBParser.STRING_TYPE:
+                value = this.handleStringEncoding();
+                break;
+        }
+        return value;
+    }
+
     handleAUX(){
         let key = this.handleStringEncoding();
         let value = this.handleStringEncoding();
