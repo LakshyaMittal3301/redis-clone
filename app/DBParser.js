@@ -65,7 +65,7 @@ class DBParser{
                 let key = this.handleStringEncoding();
                 let value = this.handleGetEncodedValue(valueType);
 
-                this.dataStore.set(key, {value, timeDelay});
+                dataStore.set(key, {value, timeDelay});
             }
             else if(this.buffer[this.counter] == DBParser.EXPIRETIME){
                 this.counter++;
@@ -79,7 +79,7 @@ class DBParser{
                 let key = this.handleStringEncoding();
                 let value = this.handleGetEncodedValue(valueType);
 
-                this.dataStore.set(key, {value, timeDelay});
+                dataStore.set(key, {value, timeDelay});
             }
             else if(this.buffer[this.counter] == DBParser.EOF){
                 break;
