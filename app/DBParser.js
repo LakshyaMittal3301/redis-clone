@@ -19,7 +19,7 @@ class DBParser{
     read(){
         let string = "";
         for(let i = 0; i < this.REDIS_MAGIC_STRING; i++){
-            string += String.fromCharCode(this.buffer[this.counter + i]);
+            string += String.fromCharCode(this.buffer[i]);
         }
         // let redisString = this.getString(this.REDIS_MAGIC_STRING);
         // this.counter += this.REDIS_MAGIC_STRING;
