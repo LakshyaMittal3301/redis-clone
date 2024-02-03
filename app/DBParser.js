@@ -1,5 +1,5 @@
 class DBParser{
-    static REDIS_MAGIC_STRING =  5;
+    static REDIS_MAGIC_STRING = 5;
     static RDB_VERSION =  4;
     static AUX = 0xfa;
     
@@ -24,10 +24,10 @@ class DBParser{
         }
 
         console.log("Inside class: ", string);
-        let redisString = this.getString(this.REDIS_MAGIC_STRING);
+        let redisString = this.getString(DBParser.REDIS_MAGIC_STRING);
         this.counter += this.REDIS_MAGIC_STRING;
 
-        let rdbVersion = this.getString(this.RDB_VERSION);
+        let rdbVersion = this.getString(DBParser.RDB_VERSION);
         this.counter += this.RDB_VERSION;
 
         console.log(`Redis Magic String:`, redisString);
