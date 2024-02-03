@@ -61,7 +61,7 @@ function executeCommand(data, socket){
 console.log("Logs from your program will appear here!");
 
 
-let dataStore;
+let dataStore = new Map();
 
 (function initialize(argList){
     if(argList.length == 0) return;
