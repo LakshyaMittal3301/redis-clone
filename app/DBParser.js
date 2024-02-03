@@ -26,7 +26,6 @@ class DBParser{
 
     fillDataStore(){
         const dataStore = new Map();
-        const curDate = new Date();
 
         let redisString = this.getString(DBParser.REDIS_MAGIC_STRING);
         this.counter += DBParser.REDIS_MAGIC_STRING;
@@ -58,12 +57,10 @@ class DBParser{
             }
             else if(this.buffer[this.counter] == DBParser.EXPIRETIMEMS){
                 this.counter++;
-                let timeDelay = this.buffer.readBigUInt64LE(this.counter);
-                console.log(timeDelay);
-                timeDelay = Number(timeDelay);
+                let timeDelay = Number(this.buffer.readBigUInt64LE(this.counter));
                 this.counter += 8;
                 
-                let expiryTime = new Date(curDate.getTime() + timeDelay);
+                let expiryTime = new Date(timeDelay);
                 
                 let valueType = this.buffer[this.counter];
                 this.counter++;
@@ -81,7 +78,7 @@ class DBParser{
                 timeDelay *= 1000;
                 this.counter += 4;
 
-                let expiryTime = new Date(curDate.getTime() + timeDelay);
+                let expiryTime = new Date(timeDelay);
 
                 let valueType = this.buffer[this.counter];
                 this.counter++;
