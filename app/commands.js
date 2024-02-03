@@ -13,7 +13,8 @@ function set(dataStore, key, value, arg, argVal){
     let expiryDate = null;
     if(arg == "px"){
         let timeDelay = 1*argVal;
-        expiryDate = new Date(timeDelay);
+        let curDate = new Date();
+        expiryDate = new Date(curDate.getTime() + timeDelay);
     }
     
     console.log(`Key : ${key}, value : ${value}, arg : ${arg}, argVal : ${argVal}`);
