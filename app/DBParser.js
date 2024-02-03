@@ -8,7 +8,6 @@ class DBParser{
 
     constructor(buffer){
         this.buffer = buffer;
-        console.log(this.buffer.toString('hex'));
         this.counter = 0;
     }
 
@@ -18,6 +17,13 @@ class DBParser{
     }
 
     read(){
+        let string = "";
+
+        for(let i=0; i < 6; i++){
+            string += String.fromCharCode(this.buffer[i]);
+        }
+
+        console.log("Inside class: ", string);
         let redisString = this.getString(this.REDIS_MAGIC_STRING);
         this.counter += this.REDIS_MAGIC_STRING;
 

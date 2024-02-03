@@ -51,11 +51,11 @@ function keys(config, arg){
     }
     let string = "";
 
-    for(let i=5; i < 9; i++){
+    for(let i=0; i < 5; i++){
         string += String.fromCharCode(buffer[i]);
     }
 
-    console.log(string);
+    console.log("Outside class: ", string);
 
     let dbParser = new DBParser(buffer);
     // dbParser.printBuffer();
