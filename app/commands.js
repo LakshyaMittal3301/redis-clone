@@ -27,7 +27,7 @@ function set(dataStore, key, value, arg, argVal){
 function get(dataStore, key){
     if(dataStore.has(key)){
         console.log('Key,', key);
-        console.log('Cur date, ', curDate);
+        console.log('Cur date, ', Date.now());
         console.log('expiry Date of get Key', dataStore.get(key).expiryTime);
         if(dataStore.get(key).expiryTime !== null && dataStore.get(key).expiryTime < Date.now()){
             dataStore.delete(key);
