@@ -10,10 +10,13 @@ function echo(message){
 }
 
 function set(dataStore, key, value, arg, argVal){
-    let timeDelay = arg == "px" ? argVal : null;
+    let expiryDate = null;
+    if(arg == "px"){
+        let timeDelay = argVal;
+        let curDate = new Date();
+        expiryDate = new Date(curDate.getTime() + timeDelay);
+    }
     
-    let curDate = new Date();
-    let expiryDate = (arg == "px") ? new Date(curDate.getTime() + timeDelay) : null;
     console.log(`Key : ${key}, value : ${value}, arg : ${arg}, argVal : ${argVal}`);
     console.log("expiry", expiryDate);
     dataStore.set(key, {value, expiryDate})
