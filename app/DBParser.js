@@ -33,7 +33,7 @@ class DBParser{
             console.log(`This is the AUX value: ${value}`);
         }
 
-        let valueType = this.buffer.readUInt8LE(this.counter);
+        let valueType = this.buffer.readUIntLE(this.counter);
         this.counter++;
 
         let stringEncodedKey = this.handleLengthEncoding();
@@ -69,9 +69,9 @@ class DBParser{
                 this.counter++;
                 break;
             case 1:
-                objLength = ((this.buffer.readUInt8LE(this.counter) >> 2 ) << 8);
+                objLength = ((this.buffer.readUIntLE(this.counter) >> 2 ) << 8);
                 this.counter++;
-                objLength |= this.buffer.readUInt8LE(this.counter);
+                objLength |= this.buffer.readUIntLE(this.counter);
                 this.counter++;
                 break;
             case 2:
