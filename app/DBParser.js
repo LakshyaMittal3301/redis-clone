@@ -7,7 +7,8 @@ class DBParser{
     counter;
 
     constructor(buffer){
-        this.buffer = Buffer.from(buffer, 'utf8');
+        console.log(buffer.toString('hex'));
+        this.buffer = Buffer.from(buffer, 'hex');
         this.counter = 0;
     }
 
