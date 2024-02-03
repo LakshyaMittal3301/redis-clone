@@ -60,7 +60,6 @@ function executeCommand(data, socket){
 
 console.log("Logs from your program will appear here!");
 
-
 let dataStore = new Map();
 
 (function initialize(argList){
