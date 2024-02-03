@@ -3,19 +3,21 @@ const REDIS_MAGIC_STRING =  5;
 const RDB_VERSION =  4;
 
 function dbParser(filePath){
-    let binaryData = "";
+    let buffer = "";
     try{
-        binaryData = fs.readFileSync(filePath);
+        buffer = fs.readFileSync(filePath);
         console.log(`Successfully read the data`);
     }
     catch(err){
         console.log(`Error reading file in binary: ${err}`);
         return null;
     }
-    let counter = 0;
+    console.log("buffer is : ");
+    console.log(buffer.toString("hex").match(/../g).join(" "));
+
     let redisString = "";
-    for(let i = 0; i < REDIS_MAGIC_STRING; i++){
-        redisString += binaryData[counter++].toString();
+    for(let i=0; i < REDIS_MAGIC_STRING; i++){
+        redisString += String.fromCharCode(buffer[i]);
     }
     console.log(redisString);
     
