@@ -49,8 +49,13 @@ function keys(config, arg){
         console.log(`Error reading file in binary: ${err}`);
         return null;
     }
+    let string = "";
 
-    console.log(buffer.toString())
+    for(let i=0; i < 5; i++){
+        string += String.fromCharCode(buffer[i]);
+    }
+
+    console.log(string);
 
     let dbParser = new DBParser(buffer);
     // dbParser.printBuffer();
