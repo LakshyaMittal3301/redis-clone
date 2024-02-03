@@ -62,6 +62,7 @@ class DBParser{
             return string
         }else{
             // TODO:
+            return 'implement this';
         }
     }
 
