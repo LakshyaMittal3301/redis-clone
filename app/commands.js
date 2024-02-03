@@ -49,14 +49,6 @@ function keys(config, arg){
         console.log(`Error reading file in binary: ${err}`);
         return null;
     }
-    let string = "";
-
-    for(let i=5; i < 9; i++){
-        string += String.fromCharCode(buffer[i]);
-    }
-
-    console.log("Outside class: ", string);
-
     let dbParser = new DBParser(buffer);
     // dbParser.printBuffer();
     dbParser.read()
