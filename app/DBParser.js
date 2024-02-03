@@ -60,14 +60,14 @@ class DBParser{
                 this.counter++;
         
                 let key = this.handleStringEncoding();
-                console.log(key);
-                
+                console.log('Key: ', key);
+                let value;
                 switch(valueType){
                     case DBParser.STRING_TYPE:
                         value = this.handleStringEncoding();
                         break;
                 }
-
+                console.log('Value: ', value);
                 dataStore.set(key, value);
             }
         }
