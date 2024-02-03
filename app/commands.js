@@ -35,8 +35,12 @@ function getConfig(config, arg){
 }
 
 function keys(dataStore, arg){
-    res = [...dataStore.keys()][0];
-    return createResponseObject([createResponseObject(res, dataType.bulkString)], dataType.array);
+    let allKeys = [...dataStore.keys()];
+    let res = [];
+    for(const key of allKeys){
+        res.push(createResponseObject(key, dataType.bulkString));
+    }
+    return createResponseObject(res, dataType.array);
 }
 
 module.exports = {
