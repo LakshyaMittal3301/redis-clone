@@ -1,5 +1,7 @@
 const { dataType } = require('./datatypes');
 const { createResponseObject } = require('./parser');
+const fs = require('fs');
+const path = require('path');
 
 function ping(){
     return createResponseObject('PONG', dataType.simpleString);
@@ -34,10 +36,30 @@ function getConfig(config, arg){
     return createResponseObject(arr, dataType.array);
 }
 
+function readBinaryFile(filePath){
+    
+    try{
+        const data = fs.readFileSync(filePath, 'binary');
+        console.log(`Successfully read the data ${data}`);
+        return data;
+    }
+    catch(err){
+        console.log(`Error reading file in binary: ${err}`);
+    }
+
+}
+
+function keys(config, arg){
+    const filePath = path.join(config['dir'], config['dbfilename']);
+    data = readBinaryFile(filePath);
+    return createResponseObject(data, dataType.nullBulkString);
+}
+
 module.exports = {
     ping, 
     echo, 
     set,
     get,
-    getConfig
+    getConfig,
+    keys
 };

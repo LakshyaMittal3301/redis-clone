@@ -7,21 +7,21 @@ const {
     echo, 
     set,
     get,
-    getConfig 
+    getConfig,
+    keys
 }  = require('./commands');
 
-const dataStore = new Map();
 
 function inputParser(data){
     let arrayRequest = data.split('\r\n');
     let args = [];
     for(let i = 4; i < arrayRequest.length; i+=2)
-        args.push(arrayRequest[i]);
+    args.push(arrayRequest[i]);
 
-    return {
-        command: arrayRequest[2],
-        args: args
-    };
+return {
+    command: arrayRequest[2],
+    args: args
+};
 }
 
 function executeCommand(data, socket){
@@ -29,8 +29,8 @@ function executeCommand(data, socket){
     let res;
     switch(command){
         case 'ping': 
-            res = ping(socket);
-            break;
+        res = ping(socket);
+        break;
         case 'echo':
             res = echo(args[0], socket);
             break;
@@ -47,12 +47,16 @@ function executeCommand(data, socket){
         case 'config':
             res = getConfig(config, args[1]);
             break;
+        case 'keys':
+            res = keys(config, args[0]);
     }
-
+                    
     socket.write(parseResponse(res));
 }
 
 console.log("Logs from your program will appear here!");
+
+const dataStore = new Map();
 
 (function processArgs(argList){
     if(argList.length == 0) return;
