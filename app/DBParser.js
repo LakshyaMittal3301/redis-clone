@@ -25,21 +25,25 @@ class DBParser{
 
         console.log(`Redis Magic String:`, redisString);
         console.log(`RDB Version:`, rdbVersion);
+        while(true){
+            if(this.buffer[this.counter] == DBParser.AUX){
+                this.counter++;
+                let {key, value} = this.handleAUX();
+                console.log(`This is the AUX Key: ${key}`);
+                console.log(`This is the AUX value: ${value}`);
+            }
+            else{
+                let valueType = this.buffer[this.counter];
+                console.log(valueType.toString(16));
+                this.counter++;
         
-        if(this.buffer[this.counter] == DBParser.AUX){
-            this.counter++;
-            let {key, value} = this.handleAUX();
-            console.log(`This is the AUX Key: ${key}`);
-            console.log(`This is the AUX value: ${value}`);
+                let stringEncodedKey = this.handleStringEncoding();
+                console.log(stringEncodedKey);
+                return stringEncodedKey;
+            }
+
         }
 
-        let valueType = this.buffer[this.counter];
-        console.log(valueType.toString(16));
-        this.counter++;
-
-        let stringEncodedKey = this.handleStringEncoding();
-        console.log(stringEncodedKey);
-        return stringEncodedKey;
 
 
     }
