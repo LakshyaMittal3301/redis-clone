@@ -20,7 +20,7 @@ class DBParser{
         let string = "";
 
         for(let i=0; i < 6; i++){
-            string += String.fromCharCode(this.buffer[i]);
+            string += String.fromCharCode(this.buffer[this.counter + i]);
         }
 
         console.log("Inside class: ", string);
