@@ -61,28 +61,28 @@ function executeCommand(data, socket){
 console.log("Logs from your program will appear here!");
 
 
-(function processArgs(argList){
+(function initialize(argList){
     if(argList.length == 0) return;
     
     config[argList[0].slice(2)] = argList[1];
     config[argList[2].slice(2)] = argList[3];
     
+    const filePath = path.join(config['dir'], config['dbfilename']);
+        
+    let buffer;
+    try{
+        buffer = fs.readFileSync(filePath);
+        console.log(`Successfully read the data`);
+    }
+    catch(err){
+        console.log(`Error reading file in binary: ${err}`);
+    }
+    
+    const dbParser = new DBParser(buffer);
+    
+    const dataStore = dbParser.fillDataStore();
 })(process.argv.slice(2));
 
-const filePath = path.join(config['dir'], config['dbfilename']);
-    
-let buffer;
-try{
-    buffer = fs.readFileSync(filePath);
-    console.log(`Successfully read the data`);
-}
-catch(err){
-    console.log(`Error reading file in binary: ${err}`);
-}
-
-const dbParser = new DBParser(buffer);
-
-const dataStore = dbParser.fillDataStore();
 
 const server = net.createServer((socket) => {
 
