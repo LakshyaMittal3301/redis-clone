@@ -2,6 +2,7 @@ class DBParser{
     static REDIS_MAGIC_STRING = 5;
     static RDB_VERSION =  4;
     static AUX = 0xfa;
+    static SELECTDB = 0xfe;
 
     buffer;
     counter;
@@ -31,6 +32,15 @@ class DBParser{
                 let {key, value} = this.handleAUX();
                 console.log(`This is the AUX Key: ${key}`);
                 console.log(`This is the AUX value: ${value}`);
+            }
+            if(this.buffer[this.counter] == DBParser.SELECTDB){
+                this.counter++;
+                let dbNumber = this.buffer[this.counter];
+                this.counter++;
+                console.log(`DB Number : ${dbNumber}`)
+                let valueType = this.buffer[this.counter];
+                console.log(valueType.toString(16));
+                this.counter++;
             }
             else{
                 let valueType = this.buffer[this.counter];
