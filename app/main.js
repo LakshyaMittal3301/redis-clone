@@ -49,6 +49,7 @@ function executeCommand(data, socket){
             break;
         case 'keys':
             res = keys(config, args[0]);
+            break;
     }
                     
     socket.write(parseResponse(res));
