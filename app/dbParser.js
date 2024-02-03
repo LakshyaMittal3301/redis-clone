@@ -3,8 +3,9 @@ const REDIS_MAGIC_STRING =  5;
 const RDB_VERSION =  4;
 
 function dbParser(filePath){
+    let data = "";
     try{
-        const data = fs.readFileSync(filePath);
+        data = fs.readFileSync(filePath);
         console.log(`Successfully read the data ${data}`);
     }
     catch(err){
