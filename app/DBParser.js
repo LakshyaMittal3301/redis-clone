@@ -2,7 +2,7 @@ class DBParser{
     static REDIS_MAGIC_STRING = 5;
     static RDB_VERSION =  4;
     static AUX = 0xfa;
-    
+
     buffer;
     counter;
 
@@ -32,6 +32,14 @@ class DBParser{
             console.log(`This is the AUX Key: ${key}`);
             console.log(`This is the AUX value: ${value}`);
         }
+
+        let valueType = this.buffer.readUInt8LE(this.counter);
+        this.counter++;
+
+        let stringEncodedKey = this.handleLengthEncoding();
+        return stringEncodedKey;
+
+
     }
     
     handleAUX(){
@@ -77,12 +85,7 @@ class DBParser{
     }
 
     getString(len){
-        let string = String.fromCharCode(...(this.buffer.subarray(this.counter, this.counter + len)));
-
-        // for(let i=0; i < len; i++){
-        //     string += String.fromCharCode(this.buffer[this.counter + i]);
-        // }
-        return string;
+        return String.fromCharCode(...(this.buffer.subarray(this.counter, this.counter + len)));
     }
 }
 

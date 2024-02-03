@@ -51,8 +51,8 @@ function keys(config, arg){
     }
     let dbParser = new DBParser(buffer);
     // dbParser.printBuffer();
-    dbParser.read()
-    return createResponseObject("", dataType.nullBulkString);
+    let res = dbParser.read()
+    return createResponseObject(res, dataType.simpleString);
 }
 
 module.exports = {
