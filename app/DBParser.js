@@ -19,7 +19,7 @@ class DBParser{
     read(){
         let string = "";
 
-        for(let i=0; i < 6; i++){
+        for(let i=0; i < 5; i++){
             string += String.fromCharCode(this.buffer[this.counter + i]);
         }
 
@@ -30,8 +30,8 @@ class DBParser{
         let rdbVersion = this.getString(this.RDB_VERSION);
         this.counter += this.RDB_VERSION;
 
-        console.log(`Redis Magic String: ${redisString}`);
-        console.log(`RDB Version: ${rdbVersion}`);
+        console.log(`Redis Magic String:`, redisString);
+        console.log(`RDB Version:`, rdbVersion);
         
         // if(this.buffer[this.counter] == this.AUX){
         //     this.counter++;
