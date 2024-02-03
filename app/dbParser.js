@@ -1,4 +1,4 @@
-class DBParser{
+export default class DBParser{
     static REDIS_MAGIC_STRING =  5;
     static RDB_VERSION =  4;
     static AUX = 0xfa;
