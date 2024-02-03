@@ -45,7 +45,7 @@ class DBParser{
                 let hashTableSize = this.handleStringEncoding();
                 let expireTableSize = this.handleStringEncoding();
                 console.log(`Hash Table size : ${hashTableSize}`);
-                console.log(`Expire Table size : ${expireTableSize}`)
+                // console.log(`Expire Table size : ${expireTableSize}`)
             }
             else{
                 let valueType = this.buffer[this.counter];
@@ -84,11 +84,11 @@ class DBParser{
                     this.counter++;
                     break;
                 case 1:
-                    res = this.buffer.readInt16LE(this.counter);
+                    res = this.buffer.readUInt16LE(this.counter);
                     this.counter += 2;
                     break;
                 case 2:
-                    res = this.buffer.readInt32LE(this.counter);
+                    res = this.buffer.readUInt32LE(this.counter);
                     this.counter += 4;
                     break;
                 case 3:
@@ -115,7 +115,7 @@ class DBParser{
                 break;
             case 2:
                 this.counter++;
-                objLength = this.buffer.readUInt32LE(this.counter);
+                objLength = this.buffer.readInt32LE(this.counter);
                 this.counter += 4;
                 break;
         }
