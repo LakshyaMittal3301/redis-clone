@@ -31,13 +31,13 @@ class DBParser{
     }
     
     handleAUX(){
-        let key = handleStringEncoding();
-        let value = handleStringEncoding();
+        let key = this.handleStringEncoding();
+        let value = this.handleStringEncoding();
         return {key, value};
     }
     
     handleStringEncoding(){
-        let {type, value} = handleLengthEncoding();
+        let {type, value} = this.handleLengthEncoding();
         if(type < 3){
             let string = String.fromCharCode(this.buffer.slice(this.counter, this.counter + value));
             this.counter += value;
