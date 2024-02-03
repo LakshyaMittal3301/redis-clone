@@ -19,11 +19,6 @@ class DBParser{
         this.counter = 0;
     }
 
-    printBuffer(){
-        console.log(`Buffer : ${this.buffer}`);
-        console.log(`Buffer.toString : ${this.buffer.toString()}`);
-    }
-
     fillDataStore(){
         const dataStore = new Map();
 
@@ -68,8 +63,6 @@ class DBParser{
                 let key = this.handleStringEncoding();
                 let value = this.handleGetEncodedValue(valueType);
 
-                console.log(`Time to expire for Key : ${key}, with value ${value} is ${timeDelay}ms`);
-
                 dataStore.set(key, {value, expiryTime});
             }
             else if(this.buffer[this.counter] == DBParser.EXPIRETIME){
@@ -86,8 +79,6 @@ class DBParser{
                 let key = this.handleStringEncoding();
                 let value = this.handleGetEncodedValue(valueType);
 
-                console.log(`Time to expire for Key : ${key}, with value ${value} is ${timeDelay}s`);
-
                 dataStore.set(key, {value, expiryTime});
             }
             else if(this.buffer[this.counter] == DBParser.EOF){
@@ -101,8 +92,6 @@ class DBParser{
                 let value = this.handleGetEncodedValue(valueType);
 
                 let expiryTime = null;
-
-                console.log(`Time to expire for Key : ${key}, with value ${value} is -1ms`);
 
                 dataStore.set(key, {value, expiryTime});
             }
@@ -131,30 +120,24 @@ class DBParser{
         if(type < 3){
             let string = this.getString(value);
             this.counter += value;
-            // console.log('case is this');
             return string
         }else{
-            // TODO:
             let res;
             switch(value){
                 case 0:
                     res = this.buffer[this.counter];
                     this.counter++;
-                    // console.log("Case is 0");
                     break;
                 case 1:
                     res = this.buffer.readUInt16LE(this.counter);
                     this.counter += 2;
-                    // console.log("Case is 1");
                     break;
                 case 2:
                     res = this.buffer.readUInt32LE(this.counter);
                     this.counter += 4;
-                    // console.log("Case is 2");
                     break;
                 case 3:
                     res = "Implement this";
-                    // console.log(res);
                     break;
             }
             return res.toString();

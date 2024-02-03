@@ -16,8 +16,6 @@ function set(dataStore, key, value, arg, argVal){
         expiryTime = new Date(Date.now() + timeDelay);
     }
     
-    console.log(`Key : ${key}, value : ${value}, arg : ${arg}, argVal : ${argVal}`);
-    console.log("expiry", expiryTime);
     dataStore.set(key, {value, expiryTime})
     
     return createResponseObject("OK", dataType.simpleString);
@@ -25,9 +23,6 @@ function set(dataStore, key, value, arg, argVal){
 
 function get(dataStore, key){
     if(dataStore.has(key)){
-        console.log('Key,', key);
-        console.log('Cur date, ', Date.now());
-        console.log('expiry Date of get Key', dataStore.get(key).expiryTime);
         if(dataStore.get(key).expiryTime !== null && dataStore.get(key).expiryTime.getTime() < Date.now()){
             dataStore.delete(key);
             return createResponseObject("", dataType.nullBulkString);
