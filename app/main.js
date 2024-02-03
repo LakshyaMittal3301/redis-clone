@@ -1,5 +1,7 @@
 const net = require("net");
 const { parseResponse } = require('./parser');
+const DBParser = require('./DBParser');
+const fs = require('./fs');
 
 const { PORT, LOCALHOST, config } = require('./config');
 const { 
@@ -48,7 +50,7 @@ function executeCommand(data, socket){
             res = getConfig(config, args[1]);
             break;
         case 'keys':
-            res = keys(config, args[0]);
+            res = keys(dataStore, args[0]);
             break;
     }
                     
@@ -57,15 +59,29 @@ function executeCommand(data, socket){
 
 console.log("Logs from your program will appear here!");
 
-const dataStore = new Map();
 
 (function processArgs(argList){
     if(argList.length == 0) return;
     
     config[argList[0].slice(2)] = argList[1];
     config[argList[2].slice(2)] = argList[3];
-
+    
 })(process.argv.slice(2));
+
+const filePath = path.join(config['dir'], config['dbfilename']);
+    
+let buffer;
+try{
+    buffer = fs.readFileSync(filePath);
+    console.log(`Successfully read the data`);
+}
+catch(err){
+    console.log(`Error reading file in binary: ${err}`);
+}
+
+const dbParser = new DBParser(buffer);
+
+const dataStore = dbParser.fillDataStore();
 
 const server = net.createServer((socket) => {
 

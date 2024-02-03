@@ -4,6 +4,8 @@ class DBParser{
     static AUX = 0xfa;
     static SELECTDB = 0xfe;
     static RESIZEDB = 0xfb;
+    static EOF = 0xff;
+    static STRING_TYPE = 0;
 
     buffer;
     counter;
@@ -18,7 +20,9 @@ class DBParser{
         console.log(`Buffer.toString : ${this.buffer.toString()}`);
     }
 
-    read(){
+    fillDataStore(){
+        const dataStore = new Map();
+
         let redisString = this.getString(DBParser.REDIS_MAGIC_STRING);
         this.counter += DBParser.REDIS_MAGIC_STRING;
 
@@ -47,20 +51,27 @@ class DBParser{
                 console.log(`Hash Table size : ${hashTableSize.value}`);
                 console.log(`Expire Table size : ${expireTableSize.value}`)
             }
+            else if(this.buffer[this.counter] == DBParser.EOF){
+                break;
+            }
             else{
                 let valueType = this.buffer[this.counter];
                 console.log(valueType.toString(16));
                 this.counter++;
         
-                let stringEncodedKey = this.handleStringEncoding();
-                console.log(stringEncodedKey);
-                return stringEncodedKey;
+                let key = this.handleStringEncoding();
+                console.log(key);
+                
+                switch(valueType){
+                    case DBParser.STRING_TYPE:
+                        value = this.handleStringEncoding();
+                        break;
+                }
+
+                dataStore.set(key, value);
             }
-
         }
-
-
-
+        return dataStore;
     }
     
     handleAUX(){
