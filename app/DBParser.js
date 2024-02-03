@@ -42,10 +42,12 @@ class DBParser{
             }
             else if(this.buffer[this.counter] == DBParser.RESIZEDB){
                 this.counter++;
-                let hashTableSize = this.handleStringEncoding();
-                let expireTableSize = this.handleStringEncoding();
+                let hashTableSize = this.buffer.readInt32LE(this.counter);
+                this.counter += 4;
+                let expireTableSize = this.buffer.readInt32LE(this.counter);
+                this.counter += 4;
                 console.log(`Hash Table size : ${hashTableSize}`);
-                // console.log(`Expire Table size : ${expireTableSize}`)
+                console.log(`Expire Table size : ${expireTableSize}`)
             }
             else{
                 let valueType = this.buffer[this.counter];
