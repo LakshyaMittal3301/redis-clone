@@ -33,7 +33,7 @@ class DBParser{
                 console.log(`This is the AUX Key: ${key}`);
                 console.log(`This is the AUX value: ${value}`);
             }
-            if(this.buffer[this.counter] == DBParser.SELECTDB){
+            else if(this.buffer[this.counter] == DBParser.SELECTDB){
                 this.counter++;
                 let dbNumber = this.buffer[this.counter];
                 this.counter++;
