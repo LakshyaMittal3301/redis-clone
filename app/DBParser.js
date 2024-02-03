@@ -13,10 +13,10 @@ class DBParser{
 
     
     read(){
-        let redisString = this.buffer.slice(this.counter, this.counter + this.REDIS_MAGIC_STRING).toString('utf8');
+        let redisString = String.fromCharCode(this.buffer.slice(this.counter, this.counter + this.REDIS_MAGIC_STRING));
         this.counter += this.REDIS_MAGIC_STRING;
 
-        let rdbVersion = this.buffer.slice(this.counter, this.counter + this.RDB_VERSION).toString('utf8');
+        let rdbVersion = String.fromCharCode(this.buffer.slice(this.counter, this.counter + this.RDB_VERSION));
         this.counter += this.RDB_VERSION;
 
         console.log(`Redis Magic String: ${redisString}`);
