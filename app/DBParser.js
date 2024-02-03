@@ -34,7 +34,7 @@ class DBParser{
         }
 
         let valueType = this.buffer[this.counter];
-        console.log(valueType);
+        console.log(valueType.toString('hex'));
         this.counter++;
 
         let stringEncodedKey = this.handleStringEncoding();
