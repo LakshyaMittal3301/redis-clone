@@ -10,7 +10,7 @@ function echo(message){
 }
 
 function set(dataStore, key, value, arg, argVal){
-    let expiryDate = null;
+    let expiryTime = null;
     if(arg == "px"){
         let timeDelay = 1*argVal;
         expiryTime = new Date(Date.now() + timeDelay);
