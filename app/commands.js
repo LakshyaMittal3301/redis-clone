@@ -40,7 +40,7 @@ function getConfig(config, arg){
 function keys(config, arg){
     const filePath = path.join(config['dir'], config['dbfilename']);
     
-    let buffer = "";
+    let buffer;
     try{
         buffer = fs.readFileSync(filePath);
         console.log(`Successfully read the data`);
