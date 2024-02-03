@@ -1,4 +1,4 @@
-export default class DBParser{
+class DBParser{
     static REDIS_MAGIC_STRING =  5;
     static RDB_VERSION =  4;
     static AUX = 0xfa;
@@ -71,6 +71,6 @@ export default class DBParser{
     
         return {type: msb, value: objLength};
     }
-};
+}
 
-module.exports.DBParser = DBParser;
+module.exports = DBParser;

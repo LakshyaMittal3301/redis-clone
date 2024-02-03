@@ -1,4 +1,4 @@
-import DBParser from './DBParser'
+const DBParser = require('./DBParser');
 const { dataType } = require('./datatypes');
 const { createResponseObject } = require('./parser');
 const path = require('path');
