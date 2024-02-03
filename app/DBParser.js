@@ -17,13 +17,6 @@ class DBParser{
     }
 
     read(){
-        let string = "";
-
-        for(let i=0; i < 5; i++){
-            string += String.fromCharCode(this.buffer[this.counter + i]);
-        }
-
-        console.log("Inside class: ", string);
         let redisString = this.getString(DBParser.REDIS_MAGIC_STRING);
         this.counter += this.REDIS_MAGIC_STRING;
 
