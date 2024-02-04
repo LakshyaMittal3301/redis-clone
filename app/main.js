@@ -58,7 +58,7 @@ function executeCommand(data, socket){
     socket.write(parseResponse(res));
 }
 
-console.log("Logs from your program will appear here!");
+console.log("Logs from your program will appear here! ");
 
 let dataStore = new Map();
 
