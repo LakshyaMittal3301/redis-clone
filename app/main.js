@@ -30,10 +30,11 @@ return {
 function executeCommand(data, socket){
     let {command, args} = inputParser(data);
     let res;
+    console.log(`Executing command: ${command}`);
     switch(command){
         case 'ping': 
-        res = ping(socket);
-        break;
+            res = ping(socket);
+            break;
         case 'echo':
             res = echo(args[0], socket);
             break;
