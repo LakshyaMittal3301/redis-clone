@@ -47,11 +47,16 @@ function keys(dataStore, arg){
     return createResponseObject(res, dataType.array);
 }
 
+function info(){
+    return createResponseObject('role:master', dataType.bulkString);
+}
+
 module.exports = {
     ping, 
     echo, 
     set,
     get,
     getConfig,
-    keys
+    keys,
+    info
 };

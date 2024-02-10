@@ -11,7 +11,8 @@ const {
     set,
     get,
     getConfig,
-    keys
+    keys,
+    info
 }  = require('./commands');
 
 
@@ -33,10 +34,10 @@ function executeCommand(data, socket){
     console.log(`Executing command: ${command}`);
     switch(command){
         case 'ping': 
-            res = ping(socket);
+            res = ping();
             break;
         case 'echo':
-            res = echo(args[0], socket);
+            res = echo(args[0]);
             break;
         case 'set':
             if(args.length == 2){
@@ -46,13 +47,16 @@ function executeCommand(data, socket){
             }
             break;
         case 'get':
-            res = get(dataStore, args[0], socket);
+            res = get(dataStore, args[0]);
             break;
         case 'config':
             res = getConfig(config, args[1]);
             break;
         case 'keys':
             res = keys(dataStore, args[0]);
+            break;
+        case 'info':
+            res = info();
             break;
     }
                     
