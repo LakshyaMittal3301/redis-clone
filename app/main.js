@@ -78,6 +78,7 @@ let dataStore = new Map();
         if(argList.length > 2 && argList[2].slice(2) === 'replicaof'){
             console.log('gere');
             const masterPort = argList[4];
+            console.log(masterPort);
             initializeServer(port, true, masterPort);
         }
         else {
