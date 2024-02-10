@@ -79,15 +79,14 @@ let dataStore = new Map();
             console.log('gere');
             const masterPort = argList[4];
             initializeServer(port, true, masterPort);
-            return;
         }
-        
-        initializeServer(port);
-
+        else {
+            initializeServer(port);
+        }
+        return;
     }
-    else {
-        initializeServer();
-    }
+    
+    initializeServer();
 
     config[argList[0].slice(2)] = argList[1];
     config[argList[2].slice(2)] = argList[3];
