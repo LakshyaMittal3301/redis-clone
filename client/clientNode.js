@@ -4,7 +4,7 @@ const { dataType } = require('./datatypes')
 const {parseResponse, createResponseObject } = require('./parser');
 const { send } = require('process');
 
-const PORT = 6379; // Replace with your desired port number
+const PORT = 6380; // Replace with your desired port number
 const HOST = '127.0.0.1';
 
 const client = new net.Socket();

@@ -12,7 +12,7 @@ const {
     get,
     getConfig,
     keys,
-    info
+    infoCommand
 }  = require('./commands');
 
 
@@ -56,7 +56,7 @@ function executeCommand(data, socket){
             res = keys(dataStore, args[0]);
             break;
         case 'info':
-            res = info(config);
+            res = infoCommand(config);
             break;
     }
                     
@@ -75,13 +75,15 @@ let dataStore = new Map();
     
     if(argList[0].slice(2) === 'port'){
         const port = argList[1];
-        initializeServer(port);
         if(argList.length > 2 && argList[2].slice(2) === 'replicaof'){
+            console.log('gere');
             const masterPort = argList[4];
-            config['isReplica'] = true;
-            config['isReplicaOf'] = masterPort;
+            initializeServer(port, true, masterPort);
+            return;
         }
-        return;
+        
+        initializeServer(port);
+
     }
     else {
         initializeServer();
@@ -109,8 +111,9 @@ let dataStore = new Map();
     
 })(process.argv.slice(2));
 
-function initializeServer(port = PORT){
-    config['isReplica'] = false;
+function initializeServer(port = PORT, isReplica = false, isReplicaOf = -1){
+    config['isReplica'] = isReplica;
+    config['isReplicaOf'] = isReplicaOf;
     const server = net.createServer((socket) => {
     
         socket.on('data', (data) => {

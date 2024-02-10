@@ -1,9 +1,9 @@
 # Specify server details
 $serverAddress = "localhost"
-$serverPort = 6379
+$serverPort = 6380
 
 # Define the command string to be sent
-$commandString = "*1\r\n$4\r\nping\r\n"
+$commandString = '*1\r\n$4\r\ninfo\r\n'
 
 # Create a TCP client
 $client = New-Object System.Net.Sockets.TcpClient

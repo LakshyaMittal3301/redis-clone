@@ -47,8 +47,8 @@ function keys(dataStore, arg){
     return createResponseObject(res, dataType.array);
 }
 
-function info(config){
-    const role = config['isReplica'] ? 'slave' : 'master';
+function infoCommand(config){
+    let role = config['isReplica'] ? 'slave' : 'master';
     return createResponseObject(`role:${role}`, dataType.bulkString);
 }
 
@@ -59,5 +59,5 @@ module.exports = {
     get,
     getConfig,
     keys,
-    info
+    infoCommand
 };
