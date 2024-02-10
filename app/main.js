@@ -68,7 +68,10 @@ console.log("Logs from your program will appear here! ");
 let dataStore = new Map();
 
 (function initialize(argList){
-    if(argList.length == 0) return;
+    if(argList.length == 0){
+        initializeServer();
+        return;
+    }
     
     if(argList[0].slice(2) === 'port'){
         const port = argList[1];
