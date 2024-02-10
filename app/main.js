@@ -66,6 +66,12 @@ let dataStore = new Map();
 (function initialize(argList){
     if(argList.length == 0) return;
     
+    if(argList[0].slice(2) === 'port'){
+        const port = argList[1];
+        initializeServer(port);
+        return;
+    }
+
     config[argList[0].slice(2)] = argList[1];
     config[argList[2].slice(2)] = argList[3];
     
@@ -88,15 +94,18 @@ let dataStore = new Map();
     
 })(process.argv.slice(2));
 
+function initializeServer(port = PORT){
+    const server = net.createServer((socket) => {
+    
+        socket.on('data', (data) => {
+            data = data.toString();
+            executeCommand(data, socket);
+      });
+    });
+    
+    server.listen(port, LOCALHOST, () => {
+        console.log(`Server Listening on ${LOCALHOST}:${port}`);
+    });
+}
 
-const server = net.createServer((socket) => {
-
-    socket.on('data', (data) => {
-        data = data.toString();
-        executeCommand(data, socket);
-  });
-});
-
-server.listen(PORT, LOCALHOST, () => {
-    console.log(`Server Listening on ${LOCALHOST}:${PORT}`);
-});
+initializeServer();
