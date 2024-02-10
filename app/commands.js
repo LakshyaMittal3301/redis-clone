@@ -47,8 +47,9 @@ function keys(dataStore, arg){
     return createResponseObject(res, dataType.array);
 }
 
-function info(){
-    return createResponseObject('role:master', dataType.bulkString);
+function info(config){
+    const role = config['isReplica'] ? 'slave' : 'master';
+    return createResponseObject(`role:${role}`, dataType.bulkString);
 }
 
 module.exports = {

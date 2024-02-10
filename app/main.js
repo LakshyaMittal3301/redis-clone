@@ -56,7 +56,7 @@ function executeCommand(data, socket){
             res = keys(dataStore, args[0]);
             break;
         case 'info':
-            res = info();
+            res = info(config);
             break;
     }
                     
@@ -73,7 +73,15 @@ let dataStore = new Map();
     if(argList[0].slice(2) === 'port'){
         const port = argList[1];
         initializeServer(port);
+        if(argList.length > 2 && argList[2].slice(2) === 'replicaof'){
+            const masterPort = argList[4];
+            config['isReplica'] = true;
+            config['isReplicaOf'] = masterPort;
+        }
         return;
+    }
+    else {
+        initializeServer();
     }
 
     config[argList[0].slice(2)] = argList[1];
@@ -99,6 +107,7 @@ let dataStore = new Map();
 })(process.argv.slice(2));
 
 function initializeServer(port = PORT){
+    config['isReplica'] = false;
     const server = net.createServer((socket) => {
     
         socket.on('data', (data) => {
@@ -111,5 +120,3 @@ function initializeServer(port = PORT){
         console.log(`Server Listening on ${LOCALHOST}:${port}`);
     });
 }
-
-initializeServer();
